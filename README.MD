@@ -46,6 +46,23 @@ app.UseVersionedSwagger();
 
 We do recommend to execute this middleware before mvc's routing and authentication/authorization, and after exception handling.
 
+SwaggerGen also needs the documentation of your application to generate it's content. So on your host csproj you would need to add
+``` xml
+<!-- .... -->
+
+<PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+</PropertyGroup>
+
+<!-- .... -->
+```
+
+This property makes the summaries on public methods mandatory, and if one is missing it would be treated as a warning. To disable this behavior on a general manner you can add this tag after the GenerateDocumentationFile Tag.
+
+``` xml
+<NoWarn>$(NoWarn);1591</NoWarn>
+```
+
 ## On the controller
 
 On the controller side, to make use of the library potential you need to use Mvc's `ApiVersion` Attribute to set the version used, The `VersionedRoute` attribute on controller level and `VersionedActionRoute` on action level, to let the template take the form of `api/v{V}/{template}`.
